@@ -10,6 +10,7 @@
 // ==/UserScript==
 
 const SELECTORS = {
+  mainContainer: "[data-qa='lux-container lux-container-rendered']",
   navigation: {
     myResumes: "[data-qa='mainmenu_myResumes']",
     vacanciesResponses: "[data-qa='mainmenu_vacancyResponses']",
@@ -18,10 +19,48 @@ const SELECTORS = {
     input: "[data-qa='search-input']",
     button: "[data-qa='search-button']",
   },
+  helper: {
+    container: "hhelper-container",
+  },
+};
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const waitForSelectorAndSelect = async (selector) => {
+  let element = document.querySelector(selector);
+  while (!element) {
+    console.log(`waiting for selector ${selector}`);
+    element = document.querySelector(selector);
+    await wait(100);
+  }
+  return element;
+};
+
+const createHelperElement = async () => {
+  const mainContainer = await waitForSelectorAndSelect(SELECTORS.mainContainer);
+  const helperContainer = document.createElement("div");
+  helperContainer.setAttribute(
+    "style",
+    `
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    box-shadow: 0 6px 16px rgba(0,0,0,.2);
+    width: 250px;
+  `
+  );
+  helperContainer.className = SELECTORS.helper.container;
+
+  const header = document.createElement("div");
+  header.setAttribute("style", ``);
+
+  helperContainer.appendChild(header);
+
+  mainContainer.appendChild(helperContainer);
 };
 
 const init = async () => {
-  console.log("hello");
+  await createHelperElement();
 };
 
 init();
