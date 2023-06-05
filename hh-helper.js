@@ -9,4 +9,19 @@
 // @grant        none
 // ==/UserScript==
 
-const start = () => {};
+const SELECTORS = {
+  navigation: {
+    myResumes: "[data-qa='mainmenu_myResumes']",
+    vacanciesResponses: "[data-qa='mainmenu_vacancyResponses']",
+  },
+  search: {
+    input: "[data-qa='search-input']",
+    button: "[data-qa='search-button']",
+  },
+};
+
+const init = async () => {
+  console.log("hello");
+};
+
+init();
